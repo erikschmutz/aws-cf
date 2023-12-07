@@ -9,7 +9,7 @@ setup(
     author='Erik Rehn',
     author_email='erik.rehn98@gmail.com',
     license='BSD 2-clause',
-    packages=['aws-cf'],
+    packages=['aws_cf'],
     install_requires=['pydantic', 'boto3'],
     entry_points={
         'console_scripts': [
