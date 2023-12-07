@@ -30,6 +30,6 @@ def diff(config_path, root_path):
             remove_change_set(service.name, change_set["ChangeSetName"])
         
         else:
-            yml = get_yml(service.path, config)
+            yml = get_yml(service.path, config, root_path)
             logger.info(f"Not able to find stack {service.name}: Creating new stack")
             logger.warn(yml)

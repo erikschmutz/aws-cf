@@ -4,7 +4,7 @@ import subprocess
 from .config import Config
 import tempfile
 
-def get_yml(path, config):
+def get_yml(path, config, root_path):
     path = path.replace("$root", root_path)
     return package(open(path).read(), config)
 
@@ -36,7 +36,7 @@ def create_change_set(name: str, path: str, root_path: str, config: Config):
         ChangeSetName=change_set_name,
         StackName=name,
         Capabilities=["CAPABILITY_NAMED_IAM"],
-        TemplateBody=get_yml(path, config)
+        TemplateBody=get_yml(path, config, root_path)
     )
     wait_for_ready(name, change_set_name)
 
