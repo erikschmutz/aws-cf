@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='aws-cf',
-    version='0.0.8',    
+    version='0.0.9',    
     description='Simple way to deploy AWS stacks',
     long_description='Simple way to deploy AWS stacks',
     url='https://github.com/erikschmutz/aws-cf/',
@@ -11,6 +11,10 @@ setup(
     license='BSD 2-clause',
     packages=['aws-cf'],
     install_requires=['pydantic', 'boto3'],
-
+    entry_points={
+        'console_scripts': [
+            'aws-cf = aws-cf'
+        ]
+    },
     classifiers=[],
 )
