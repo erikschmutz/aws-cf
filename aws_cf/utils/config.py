@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 import yaml
+import os
 
 class Stack(BaseModel):
     path: str
@@ -23,3 +24,8 @@ class Config(BaseModel):
             return Config(**data)
         except:
             raise IOError("Not able to find file at path: " + '"' + path + '"')
+
+    def setup_env(self, env=None):
+        if not env:
+            os.environ["AWS_PROFILE"] = self.Enviroments[0].profile
+            os.environ["AWS_DEFAULT_REGION"] = self.Enviroments[0].region

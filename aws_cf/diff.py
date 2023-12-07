@@ -6,6 +6,8 @@ from .utils.common import create_change_set, remove_change_set, format_diff
 
 def diff(config_path, root_path):
     config = Config.parse(config_path)
+    config.setup_env()
+    
     services = config.Stacks
 
     logger.warning(f"Checking difference for stacks from file {config_path}")
