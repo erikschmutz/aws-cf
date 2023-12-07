@@ -9,7 +9,7 @@ setup(
     author='Erik Rehn',
     author_email='erik.rehn98@gmail.com',
     license='BSD 2-clause',
-    packages=['src'],
+    packages=['aws-cf'],
     install_requires=['pydantic', 'boto3'],
 
     classifiers=[],
