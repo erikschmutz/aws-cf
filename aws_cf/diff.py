@@ -1,7 +1,7 @@
 from .utils.logging import logger
 from .utils.config import Config
 import sys
-from utils.common import create_change_set, remove_change_set, format_diff
+from .utils.common import create_change_set, remove_change_set, format_diff
 
 
 def diff(config_path, root_path):
