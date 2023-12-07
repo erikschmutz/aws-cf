@@ -1,8 +1,8 @@
-from .utils.logging import logger
-from .utils.config import Config
+from aws_cf.utils.logging import logger
+from aws_cf.utils.config import Config
 import sys
 import json
-from .utils.common import create_change_set, remove_change_set, format_diff, get_yes_or_no, deploy_stack
+from aws_cf.utils.common import create_change_set, remove_change_set, format_diff, get_yes_or_no, deploy_stack
 
 
 def deploy(config_path, root_path):
