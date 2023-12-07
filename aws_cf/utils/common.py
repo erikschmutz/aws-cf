@@ -28,7 +28,7 @@ def create_change_set(name: str, path: str, root_path: str, config: Config):
     client.create_change_set(
         ChangeSetName=change_set_name,
         StackName=name,
-        TemplateBody=package(open(path + "/spec.yml").read(), config)
+        TemplateBody=package(open(path).read(), config)
     )
     wait_for_ready(name, change_set_name)
     return client.describe_change_set(
