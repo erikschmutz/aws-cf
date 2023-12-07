@@ -13,7 +13,7 @@ setup(
     install_requires=['pydantic', 'boto3'],
     entry_points={
         'console_scripts': [
-            'aws-cf = aws-cf'
+            'aws-cf = aws_cf.__main__:main'
         ]
     },
     classifiers=[],
