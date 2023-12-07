@@ -11,16 +11,15 @@ def main():
     parser.add_argument("path", help='path to the file describing the services')
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: 0.0.0')
     parser.add_argument("-r", "--root")
-    
+
     args = parser.parse_args()
-    
+
     try:
         if args.action == "deploy":
-            deploy(args.path, args.root or "")
+            deploy(args.path, args.root or ".")
         if args.action == "diff":
-            diff(args.path, args.root or "")
+            diff(args.path, args.root or ".")
     except Exception as e:
         logger.error(str(e))
-    
-    
-    
+
+
