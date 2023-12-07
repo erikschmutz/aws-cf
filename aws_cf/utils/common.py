@@ -71,7 +71,8 @@ def format_diff(diff):
 
     actionName = {
         "Add": "Adding",
-        "Modify": "Modifying"
+        "Modify": "Modifying",
+        "Remove": "Removing"
     }
 
     if len(details):
