@@ -1,6 +1,6 @@
 import argparse
-from deploy import deploy
-from utils.logging import logger
+from .deploy import deploy
+from .utils.logging import logger
 
 parser = argparse.ArgumentParser()
 
