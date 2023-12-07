@@ -1,0 +1,1 @@
+cd ../.. && python3 -m aws_cf.__main__ info examples/info/services.yml && cd -
