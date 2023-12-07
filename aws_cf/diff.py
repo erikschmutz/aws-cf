@@ -4,14 +4,11 @@ import sys
 from utils.common import create_change_set, remove_change_set, format_diff
 
 
-if __name__ == "__main__":
-    config_path = sys.argv[1]
-    root_path = sys.argv[2]
-
-    logger.warning(f"Checking difference for stacks from file {config_path}")
-
+def diff(config_path, root_path):
     config = Config.parse(config_path)
     services = config.Stacks
+    
+    logger.warning(f"Checking difference for stacks from file {config_path}")
 
     logger.info(f"* Found {len(services)} services checking differences...")
 
