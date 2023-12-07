@@ -4,12 +4,18 @@ import subprocess
 from .config import Config
 import tempfile
 
+def get_yml(path, config):
+    return package(open(path).read(), config)
+
 def create_change_set(name: str, path: str, root_path: str, config: Config):
     PREFIX = "InfraScript"
 
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")
-    previouse_change_sets = client.list_change_sets(StackName=name)
+    try:
+        previouse_change_sets = client.list_change_sets(StackName=name)
+    except:
+        return None
 
     def get_name(previouse_change_sets):
         if not len(previouse_change_sets["Summaries"]):
@@ -29,9 +35,10 @@ def create_change_set(name: str, path: str, root_path: str, config: Config):
         ChangeSetName=change_set_name,
         StackName=name,
         Capabilities=["CAPABILITY_NAMED_IAM"],
-        TemplateBody=package(open(path).read(), config)
+        TemplateBody=get_yml(path, config)
     )
     wait_for_ready(name, change_set_name)
+
     return client.describe_change_set(
         ChangeSetName=change_set_name,
         StackName=name
@@ -85,6 +92,13 @@ def deploy_stack(name: str, change_set):
     response = client.execute_change_set(
         ChangeSetName=change_set,
         StackName=name
+    )
+
+def create_stack(name: str, template:str):
+    client = boto3.client("cloudformation")
+    response = client.create_stack(
+        StackName=name,
+        TemplateBody=template
     )
 
 def package(yml: str, config: Config):
