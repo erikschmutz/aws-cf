@@ -5,6 +5,7 @@ from .config import Config
 import tempfile
 
 def get_yml(path, config):
+    path = path.replace("$root", root_path)
     return package(open(path).read(), config)
 
 def create_change_set(name: str, path: str, root_path: str, config: Config):
