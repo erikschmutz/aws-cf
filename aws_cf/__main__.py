@@ -11,9 +11,6 @@ parser.add_argument("-r", "--root")
 
 args = parser.parse_args()
 
-if args.action:
-    print("Version: ")
-
 if args.action == "deploy":
     try:
         deploy(args.path, args.root or "")
