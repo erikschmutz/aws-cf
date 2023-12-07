@@ -8,7 +8,7 @@ setup(
     author='Erik Rehn',
     author_email='erik.rehn98@gmail.com',
     license='BSD 2-clause',
-    packages=['pyexample'],
+    packages=['src'],
     install_requires=['mpi4py>=2.0','numpy'],
 
     classifiers=[],
