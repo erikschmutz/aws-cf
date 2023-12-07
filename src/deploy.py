@@ -5,14 +5,9 @@ import json
 from utils.common import create_change_set, remove_change_set, format_diff, get_yes_or_no, deploy_stack
 
 
-if __name__ == "__main__":
-    config_path = sys.argv[1]
-    root_path = sys.argv[2]
-
-    logger.warning(f"Checking difference for stacks from file {config_path}")
-
+def deploy(config_path, root_path):
     services = Config.parse(config_path).Stacks
-
+    logger.warning(f"Checking difference for stacks from file {config_path}")
     
     logger.info(f"* Found {len(services)} services checking differences...")
 

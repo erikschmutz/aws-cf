@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='aws-cf',
-    version='0.0.0',    
+    version='0.0.1',    
     description='Simple way to deploy AWS stacks',
     long_description='Simple way to deploy AWS stacks',
     url='https://github.com/erikschmutz/aws-cf/',
@@ -10,7 +10,7 @@ setup(
     author_email='erik.rehn98@gmail.com',
     license='BSD 2-clause',
     packages=['src'],
-    install_requires=['mpi4py>=2.0','numpy'],
+    install_requires=['pydantic', 'boto3'],
 
     classifiers=[],
 )

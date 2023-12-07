@@ -18,5 +18,8 @@ class Config(BaseModel):
 
     @staticmethod
     def parse(path: str):
-        data = yaml.safe_load(open(path))
-        return Config(**data)
+        try:
+            data = yaml.safe_load(open(path))
+            return Config(**data)
+        except:
+            raise IOError("Not able to find file at path: " + '"' + path + '"')
