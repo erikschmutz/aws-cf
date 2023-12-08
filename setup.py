@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='aws-cf',
-    version='0.1.1',    
+    version='0.1.2',    
     description='Simple way to deploy AWS stacks',
     long_description='Simple way to deploy AWS stacks',
     url='https://github.com/erikschmutz/aws-cf/',

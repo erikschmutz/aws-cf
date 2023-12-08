@@ -1,0 +1,17 @@
+Enviroments:
+  - name: prod
+    profile: <AWS_PROFILE>
+    region: eu-central-1
+    artifacts: <BUCKET_NAME_FOR_ARTIFACTS>
+
+  - name: stage
+    profile: <AWS_PROFILE>
+    region: eu-central-1
+    artifacts: <BUCKET_NAME_FOR_ARTIFACTS>
+
+Stacks:
+  - path: $root/aws/VPC.yml
+    name: Network
+
+  - path: $root/aws/API.yml
+    name: API
