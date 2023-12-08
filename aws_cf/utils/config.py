@@ -13,12 +13,14 @@ class Enviroment(BaseModel):
     region: str
     artifacts: str
 
+
+
 class Config(BaseModel):
     Enviroments: List[Enviroment]
     Stacks: List[Stack]
 
     @staticmethod
-    def parse(path: str):
+    def parse(path: str = None):
         try:
             data = yaml.safe_load(open(path))
             return Config(**data)

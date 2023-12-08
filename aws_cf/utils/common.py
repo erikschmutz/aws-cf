@@ -3,6 +3,7 @@ import time
 import subprocess
 from .config import Config
 import tempfile
+from .config import Stack
 
 def get_yml(path, config, root_path):
     path = path.replace("$root", root_path)
@@ -44,7 +45,8 @@ def create_change_set(name: str, path: str, root_path: str, config: Config):
         ChangeSetName=change_set_name,
         StackName=name
     )
-  
+
+
 def wait_for_ready(name, change_set_name):
     client = boto3.client("cloudformation") 
     while True:
@@ -118,10 +120,6 @@ def package(yml: str, config: Config):
         )
         
         return result.decode()
-
-
-
-
 
 def get_yes_or_no(message):
     while True:

@@ -1,6 +1,6 @@
 import sys
-from utils.config import Config
-from utils.common import package
+from ..utils.config import Config
+from ..utils.common import package
 
 if __name__ == "__main__":
     config_path = sys.argv[1]
