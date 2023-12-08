@@ -4,8 +4,9 @@ from ..utils.context import Context
 
 def info():
     config = Config.parse(Context.get_service_path())
+  
     envs = '\n'.join(["  🌳 " + env.name + " (" + env.region + ")"  for env in config.Enviroments])
-    stacks = '\n'.join(["  📚 " + env.name for env in config.Stacks])
+    stacks = '\n'.join([f"  📚 {stack.name} ({len(stack.resources.keys())} resource)" for stack in config.Stacks])
     root_path = Context.get_root()
     service_path = Context.get_service_path()
 

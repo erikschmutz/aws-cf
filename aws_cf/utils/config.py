@@ -2,10 +2,23 @@ from typing import List
 from pydantic import BaseModel
 import yaml
 import os
+from .context import Context
 
 class Stack(BaseModel):
     path: str
     name: str
+
+    @property
+    def _path(self):
+        return self.path.replace("$root", Context.get_root())
+        
+    @property
+    def _yml(self):
+        return yaml.safe_load(open(self._path).read())
+
+    @property
+    def resources(self):
+        return self._yml.get("Resources", {})
 
 class Enviroment(BaseModel):
     name: str

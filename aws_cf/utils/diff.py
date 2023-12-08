@@ -9,7 +9,7 @@ class DiffResponse(BaseModel):
     changes: list[Any]
 
 def create_change_set(name: str, path: str, root_path: str, config: Config):
-    PREFIX = "InfraScript"
+    PREFIX = "AWSCF"
 
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")

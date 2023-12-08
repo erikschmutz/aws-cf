@@ -7,18 +7,17 @@ from .utils.context import Context
 
 def main():
     parser = argparse.ArgumentParser()
-
     parser.add_argument(
         "action", 
         choices=['diff', 'info', 'deploy', 'package', "version"], 
         help='what action to preform'
     )
-
     parser.add_argument(
         "-path", "--path",
         default="services.yml",
         help='path to the file describing the services'
     )
+    
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: 0.0.0')
     parser.add_argument("-r", "--root")
 

@@ -8,8 +8,7 @@ def diff(config_path, root_path):
     config = Config.parse(config_path)
     config.setup_env()
 
-    services = config.Stacks
-    
+    services = config.Stacks    
 
     for service in services:
         change_set = create_change_set(service.name, service.path, root_path, config)
