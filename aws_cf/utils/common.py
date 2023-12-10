@@ -18,7 +18,9 @@ def create_change_set(name: str, path: str, root_path: str, config: Config):
     try:
         previouse_change_sets = client.list_change_sets(StackName=name)
     except botocore.exceptions.ClientError as e:
-        return None
+        if str(e).endswith(f"Stack [{name}] does not exist"):
+            return None
+        raise e
 
     def get_name(previouse_change_sets):
         if not len(previouse_change_sets["Summaries"]):
