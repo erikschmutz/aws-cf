@@ -22,6 +22,8 @@ def main():
 
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: ' + VERSION)
     parser.add_argument("-r", "--root")
+    parser.add_argument("-vb", "--verbose", type=bool)
+    
 
     args = parser.parse_args()
 
@@ -39,6 +41,8 @@ def main():
             diff(args.path, args.root or ".")
 
     except Exception as e:
+        if args.verbose:
+            raise e
         logger.error(str(e))
 
 
