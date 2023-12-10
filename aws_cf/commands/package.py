@@ -11,4 +11,4 @@ if __name__ == "__main__":
     stack = config.Stacks[0]
     yml = open(stack.path.replace("$root", root_path).read())
 
-    package(yml, config)
+    package(stack, config)

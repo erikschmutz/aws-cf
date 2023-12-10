@@ -27,6 +27,6 @@ def diff(config_path, root_path):
             remove_change_set(service.name, change_set["ChangeSetName"])
         
         else:
-            yml = package(service.path, config, root_path)
+            yml = package(service, config)
             logger.warn(f"{service.name} new stack ⭐")
             logger.warn(yml)
