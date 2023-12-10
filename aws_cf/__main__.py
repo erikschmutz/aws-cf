@@ -17,7 +17,7 @@ def main():
         default="services.yml",
         help='path to the file describing the services'
     )
-    
+
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: 0.0.0')
     parser.add_argument("-r", "--root")
 

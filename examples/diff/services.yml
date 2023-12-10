@@ -1,13 +1,6 @@
 Enviroments:
   - name: prod
-    profile: <AWS_PROFILE>
-    region: eu-central-1
-    artifacts: <BUCKET_NAME_FOR_ARTIFACTS>
-
-  - name: stage
-    profile: <AWS_PROFILE>
-    region: eu-central-1
-    artifacts: <BUCKET_NAME_FOR_ARTIFACTS>
+    artifacts: aws-cf-remove-me
 
 Stacks:
   - path: $root/aws/VPC.yml

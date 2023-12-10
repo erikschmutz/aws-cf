@@ -9,14 +9,12 @@ class DiffResponse(BaseModel):
     changes: list[Any]
 
 def create_change_set(name: str, path: str, root_path: str, config: Config):
-    PREFIX = "AWSCF"
+    PREFIX = "AWS-CF"
 
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")
-    try:
-        previouse_change_sets = client.list_change_sets(StackName=name)
-    except:
-        return None
+    previouse_change_sets = client.list_change_sets(StackName=name)
+
 
     def get_name(previouse_change_sets):
         if not len(previouse_change_sets["Summaries"]):

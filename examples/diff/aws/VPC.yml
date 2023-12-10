@@ -1,0 +1,10 @@
+Resources:
+  NullResource:
+    Type: AWS::CloudFormation::WaitConditionHandle
+
+Outputs:
+  OfficeIP:
+    Description: Example
+    Value: "XXX"
+    Export:
+      Name: !Join [":", [!Ref "AWS::StackName", OfficeIP]]

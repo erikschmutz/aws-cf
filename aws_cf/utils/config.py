@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 import yaml
 import os
@@ -27,26 +27,33 @@ class Stack(BaseModel):
         return self._yml.get("Resources", {})
 
 class Enviroment(BaseModel):
+    artifacts: str 
     name: str
-    profile: str
-    region: str
-    artifacts: str
+    region: Optional[str] = None
+    profile: Optional[str] = None
 
 
 
 class Config(BaseModel):
-    Enviroments: List[Enviroment]
     Stacks: List[Stack]
+    Enviroments: List[Enviroment]
 
     @staticmethod
     def parse(path: str = None):
         try:
             data = yaml.safe_load(open(path))
-            return Config(**data)
         except:
             raise IOError("Not able to find file at path: " + '"' + path + '"')
 
+        try:
+            return Config(**data)
+        except Exception as e:
+            raise Exception("Not able to pase config: " + '"' + str(e) + '"')
+
     def setup_env(self, env=None):
         if not env:
-            os.environ["AWS_PROFILE"] = self.Enviroments[0].profile
-            os.environ["AWS_DEFAULT_REGION"] = self.Enviroments[0].region
+            if self.Enviroments[0].profile:
+                os.environ["AWS_PROFILE"] = self.Enviroments[0].profile
+                
+            if self.Enviroments[0].region:
+                os.environ["AWS_DEFAULT_REGION"] = self.Enviroments[0].region

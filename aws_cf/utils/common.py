@@ -1,4 +1,5 @@
 import boto3
+import botocore.exceptions
 import time
 import subprocess
 from .config import Config
@@ -10,13 +11,13 @@ def get_yml(path, config, root_path):
     return package(open(path).read(), config)
 
 def create_change_set(name: str, path: str, root_path: str, config: Config):
-    PREFIX = "InfraScript"
+    PREFIX = "AWS-CF"
 
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")
     try:
         previouse_change_sets = client.list_change_sets(StackName=name)
-    except:
+    except botocore.exceptions.ClientError as e:
         return None
 
     def get_name(previouse_change_sets):
@@ -109,15 +110,18 @@ def package(yml: str, config: Config):
         tmp.write(bytes(yml, "utf-8"))
         tmp.read()
     
-        result = subprocess.check_output(
-            [
+        args = [
                 "aws", "cloudformation", "package",
                 "--template", tmp.name,
                 "--s3-prefix", "aws/stacks",
                 "--s3-bucket", config.Enviroments[0].artifacts,
-                "--profile", config.Enviroments[0].profile
-            ]
-        )
+        ]
+        
+        if config.Enviroments[0].profile:
+            args.append("--profile")
+            args.append(config.Enviroments[0].profile)
+
+        result = subprocess.check_output(args)
         
         return result.decode()
 
