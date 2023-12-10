@@ -1,4 +1,6 @@
 import argparse
+
+from .meta import VERSION
 from .commands.deploy import deploy
 from .commands.diff import diff
 from .commands.info import info
@@ -18,7 +20,7 @@ def main():
         help='path to the file describing the services'
     )
 
-    parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: 0.0.0')
+    parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: ' + VERSION)
     parser.add_argument("-r", "--root")
 
     args = parser.parse_args()

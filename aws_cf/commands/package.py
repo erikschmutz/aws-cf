@@ -9,6 +9,6 @@ if __name__ == "__main__":
 
     config = Config.parse(config_path)
     stack = config.Stacks[0]
-    yml = open(stack.path.replace("$root", root_path) + "/spec.yml").read()
+    yml = open(stack.path.replace("$root", root_path).read())
 
     package(yml, config)
