@@ -4,7 +4,7 @@ class Context:
 
     @staticmethod
     def get_changeset_prefix():
-        return "AWS-CF"
+        return "AWSCF"
 
     @staticmethod
     def set_root(root: str):
