@@ -119,25 +119,20 @@ def create_stack(name: str, template:str):
         TemplateBody=template
     )
 
-def package(yml: str, config: Config):
-    with tempfile.NamedTemporaryFile() as tmp:
-        tmp.write(bytes(yml, "utf-8"))
-        tmp.read()
+def package(stack: Stack, config: Config):
+    args = [
+            "aws", "cloudformation", "package",
+            "--template", stack._path,
+            "--s3-prefix", "aws/stacks",
+            "--s3-bucket", config.Enviroments[0].artifacts,
+    ]
     
-        args = [
-                "aws", "cloudformation", "package",
-                "--template", tmp.name,
-                "--s3-prefix", "aws/stacks",
-                "--s3-bucket", config.Enviroments[0].artifacts,
-        ]
-        
-        if config.Enviroments[0].profile:
-            args.append("--profile")
-            args.append(config.Enviroments[0].profile)
+    if config.Enviroments[0].profile:
+        args.append("--profile")
+        args.append(config.Enviroments[0].profile)
 
-        result = subprocess.check_output(args)
-        
-        return result.decode()
+    result = subprocess.check_output(args)
+    return result.decode()
 
 def get_yes_or_no(message):
     while True:
