@@ -14,12 +14,18 @@ def main():
         choices=['diff', 'info', 'deploy', 'package', "version"], 
         help='what action to preform'
     )
+
+    parser.add_argument(
+        "-s", "--service",
+        default="*",
+        help="specify which stack"
+    )
+
     parser.add_argument(
         "-path", "--path",
         default="services.yml",
         help='path to the file describing the services'
     )
-
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: ' + VERSION)
     parser.add_argument("-r", "--root")
     parser.add_argument("-vb", "--verbose", type=bool)
@@ -29,6 +35,7 @@ def main():
 
     try:
         Context.set_root(args.root or ".")
+        Context.set_args(args)
         Context.set_service_path(args.path)
 
         if args.action == "deploy":

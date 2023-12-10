@@ -1,8 +1,9 @@
 from ..utils.logging import logger
 from ..utils.config import Config
+from ..utils.context import Context
 import sys
 from ..utils.common import create_change_set,package, remove_change_set, format_diff
-
+import re
 
 def diff(config_path, root_path):
     config = Config.parse(config_path)
@@ -11,7 +12,11 @@ def diff(config_path, root_path):
     services = config.Stacks    
 
     for service in services:
+        if not re.search(Context.get_args().service, service.name):
+            continue
+
         change_set = create_change_set(service, config)
+
 
         if change_set:
             diffs = [format_diff(change)for change in change_set["Changes"]]

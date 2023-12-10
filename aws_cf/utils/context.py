@@ -1,6 +1,18 @@
+from typing import Any
+
 class Context:
     root: str
     service_path: str
+    args: Any
+
+    @staticmethod
+    def get_args():
+        return Context.args
+
+    @staticmethod
+    def set_args(args):
+        Context.args = args
+
 
     @staticmethod
     def get_changeset_prefix():
