@@ -7,9 +7,6 @@ from .context import Context
 import tempfile
 import json
 
-def get_yml(path, config, root_path):
-    path = path.replace("$root", root_path)
-    return package(open(path).read(), config)
 
 def create_change_set(stack: Stack, config: Config):
     PREFIX = Context.get_changeset_prefix()
@@ -51,7 +48,7 @@ def create_change_set(stack: Stack, config: Config):
         ChangeSetName=change_set_name,
         StackName=name,
         Capabilities=["CAPABILITY_NAMED_IAM"],
-        TemplateBody=get_yml(path, config, root_path),
+        TemplateBody=package(stack, config),
         Parameters=parameters,
     )
     wait_for_ready(name, change_set_name)

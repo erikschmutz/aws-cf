@@ -1,7 +1,7 @@
 from ..utils.logging import logger
 from ..utils.config import Config
 import sys
-from ..utils.common import create_change_set, get_yml, remove_change_set, format_diff
+from ..utils.common import create_change_set,package, remove_change_set, format_diff
 
 
 def diff(config_path, root_path):
@@ -27,6 +27,6 @@ def diff(config_path, root_path):
             remove_change_set(service.name, change_set["ChangeSetName"])
         
         else:
-            yml = get_yml(service.path, config, root_path)
+            yml = package(service.path, config, root_path)
             logger.warn(f"{service.name} new stack ⭐")
             logger.warn(yml)
