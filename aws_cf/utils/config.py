@@ -14,7 +14,13 @@ class Stack(BaseModel):
         
     @property
     def _yml(self):
-        return yaml.safe_load(open(self._path).read())
+        class SafeLoaderIgnoreUnknown(yaml.SafeLoader):
+            def ignore_unknown(self, node):
+                return None 
+
+        SafeLoaderIgnoreUnknown.add_constructor(None, SafeLoaderIgnoreUnknown.ignore_unknown)
+
+        return yaml.load(open(self._path).read(), Loader=SafeLoaderIgnoreUnknown)
 
     @property
     def resources(self):
