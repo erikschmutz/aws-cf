@@ -11,7 +11,7 @@ def diff(config_path, root_path):
     services = config.Stacks    
 
     for service in services:
-        change_set = create_change_set(service.name, service.path, root_path, config)
+        change_set = create_change_set(service, config)
 
         if change_set:
             diffs = [format_diff(change)for change in change_set["Changes"]]

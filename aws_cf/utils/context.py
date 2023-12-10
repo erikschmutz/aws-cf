@@ -3,6 +3,10 @@ class Context:
     service_path: str
 
     @staticmethod
+    def get_changeset_prefix():
+        return "AWS-CF"
+
+    @staticmethod
     def set_root(root: str):
         Context.root = root
 

@@ -2,23 +2,28 @@ import boto3
 import botocore.exceptions
 import time
 import subprocess
-from .config import Config
+from .config import Config, Stack
+from .context import Context
 import tempfile
-from .config import Stack
 
 def get_yml(path, config, root_path):
     path = path.replace("$root", root_path)
     return package(open(path).read(), config)
 
-def create_change_set(name: str, path: str, root_path: str, config: Config):
-    PREFIX = "AWS-CF"
+def create_change_set(stack: Stack, config: Config):
+    PREFIX = Context.get_changeset_prefix()
 
+    root_path = Context.get_root()
+
+    path = stack.path
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")
+    name = stack.name
+
     try:
-        previouse_change_sets = client.list_change_sets(StackName=name)
+        previouse_change_sets = client.list_change_sets(StackName=stack.name)
     except botocore.exceptions.ClientError as e:
-        if str(e).endswith(f"Stack [{name}] does not exist"):
+        if str(e).endswith(f"Stack [{stack.name}] does not exist"):
             return None
         raise e
 
@@ -36,11 +41,17 @@ def create_change_set(name: str, path: str, root_path: str, config: Config):
         return PREFIX + name + "-" + str(new_index)
 
     change_set_name = get_name(previouse_change_sets)
+    parameters  =[]
+    
+    if stack.parameters:
+        parameters = [{"ParameterKey": key, "ParameterValue": stack.parameters[key]} for key in stack.parameters.keys()]
+
     client.create_change_set(
         ChangeSetName=change_set_name,
         StackName=name,
         Capabilities=["CAPABILITY_NAMED_IAM"],
-        TemplateBody=get_yml(path, config, root_path)
+        TemplateBody=get_yml(path, config, root_path),
+        Parameters=parameters,
     )
     wait_for_ready(name, change_set_name)
 

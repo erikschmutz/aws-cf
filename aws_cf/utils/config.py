@@ -7,6 +7,7 @@ from .context import Context
 class Stack(BaseModel):
     path: str
     name: str
+    parameters: Optional[dict]
 
     @property
     def _path(self):
@@ -54,6 +55,6 @@ class Config(BaseModel):
         if not env:
             if self.Enviroments[0].profile:
                 os.environ["AWS_PROFILE"] = self.Enviroments[0].profile
-                
+
             if self.Enviroments[0].region:
                 os.environ["AWS_DEFAULT_REGION"] = self.Enviroments[0].region
