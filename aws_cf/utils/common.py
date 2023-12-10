@@ -5,6 +5,7 @@ import subprocess
 from .config import Config, Stack
 from .context import Context
 import tempfile
+import json
 
 def get_yml(path, config, root_path):
     path = path.replace("$root", root_path)
