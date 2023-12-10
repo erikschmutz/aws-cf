@@ -113,7 +113,8 @@ def create_stack(name: str, template:str):
     client = boto3.client("cloudformation")
     response = client.create_stack(
         StackName=name,
-        TemplateBody=template
+        TemplateBody=template, 
+        Capabilities=["CAPABILITY_NAMED_IAM"],
     )
 
 def package(stack: Stack, config: Config):
