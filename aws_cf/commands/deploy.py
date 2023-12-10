@@ -14,7 +14,7 @@ def deploy(config_path, root_path):
     logger.info(f"* Found {len(services)} services checking differences...")
 
     for service in services:
-        change_set = create_change_set(service, root_path, config)
+        change_set = create_change_set(service, config)
         diffs = [format_diff(change)for change in change_set["Changes"]]
 
         if len(diffs):
