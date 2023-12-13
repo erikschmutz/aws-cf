@@ -18,8 +18,8 @@ def create_change_set(stack: Stack, config: Config):
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")
     name = stack.name
-    change_set_name = PREFIX + str(datetime.datetime.now().isoformat()).replace(":", "-")
-    
+    change_set_name = PREFIX + str(datetime.datetime.now().isoformat()).replace(":", "").split(".")[0]
+
     parameters  =[]
     
     if stack.parameters:
