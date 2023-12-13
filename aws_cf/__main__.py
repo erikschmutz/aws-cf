@@ -17,7 +17,7 @@ def main():
 
     parser.add_argument(
         "-s", "--service",
-        default="*",
+        default=".*",
         help="specify which stack"
     )
 
@@ -26,6 +26,13 @@ def main():
         default="services.yml",
         help='path to the file describing the services'
     )
+
+    parser.add_argument(
+        "-e", "--enviroment",
+        default="",
+        help="which enviorment to use"
+    )
+
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: ' + VERSION)
     parser.add_argument("-r", "--root")
     parser.add_argument("-vb", "--verbose", type=bool)
