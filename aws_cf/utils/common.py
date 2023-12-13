@@ -20,6 +20,13 @@ def create_change_set(stack: Stack, config: Config):
     name = stack.name
     change_set_name = PREFIX + str(datetime.datetime.now().isoformat()).replace(":", "").split(".")[0]
 
+    try:
+        client.list_change_sets(StackName=stack.name)
+    except botocore.exceptions.ClientError as e:
+        if str(e).endswith(f"Stack [{stack.name}] does not exist"):
+            return None
+        raise e
+
     parameters  =[]
     
     if stack.parameters:
