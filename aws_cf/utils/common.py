@@ -6,6 +6,7 @@ from .config import Config, Stack
 from .context import Context
 import tempfile
 import json
+import datetime
 
 
 def create_change_set(stack: Stack, config: Config):
@@ -17,28 +18,8 @@ def create_change_set(stack: Stack, config: Config):
     path = path.replace("$root", root_path)
     client = boto3.client("cloudformation")
     name = stack.name
-
-    try:
-        previouse_change_sets = client.list_change_sets(StackName=stack.name)
-    except botocore.exceptions.ClientError as e:
-        if str(e).endswith(f"Stack [{stack.name}] does not exist"):
-            return None
-        raise e
-
-    def get_name(previouse_change_sets):
-        if not len(previouse_change_sets["Summaries"]):
-            return PREFIX + "-" + name + "-" + str(1)
-
-        previouse_name:str = previouse_change_sets["Summaries"][0]["ChangeSetName"]
-
-        if not previouse_name.startswith(PREFIX):
-            return PREFIX + "-" + name + "-" + str(1)
-
-        previouse_index = int(previouse_name.split("-")[2])
-        new_index = previouse_index + 1
-        return PREFIX + name + "-" + str(new_index)
-
-    change_set_name = get_name(previouse_change_sets)
+    change_set_name = PREFIX + str(datetime.datetime.now().isoformat()).replace(":", "-")
+    
     parameters  =[]
     
     if stack.parameters:
