@@ -1,4 +1,4 @@
-Enviroments:
+Environments:
   - name: prod
     profile: <AWS_PROFILE>
     region: eu-central-1

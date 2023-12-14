@@ -12,7 +12,7 @@ aws-cf package services.yml
 
 ## Example Configuration (services.yml):
 ```yml
-Environments:
+Environmentss:
   - name: prod
     profile: `<AWS_PROFILE>`
     region: `eu-central-1`

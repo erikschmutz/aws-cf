@@ -136,12 +136,12 @@ def package(stack: Stack, config: Config):
             "aws", "cloudformation", "package",
             "--template", stack._path,
             "--s3-prefix", "aws/stacks",
-            "--s3-bucket", config.Enviroments[0].artifacts,
+            "--s3-bucket", config.Environments[0].artifacts,
     ]
     
-    if config.Enviroments[0].profile:
+    if config.Environments[0].profile:
         args.append("--profile")
-        args.append(config.Enviroments[0].profile)
+        args.append(config.Environments[0].profile)
 
     result = subprocess.check_output(args)
     return result.decode()

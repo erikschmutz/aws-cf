@@ -1,4 +1,4 @@
-Enviroments:
+Environments:
   - name: default
     # Replace this with your region
     profile: <AWS_ACCOUNT>

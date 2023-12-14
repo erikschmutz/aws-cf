@@ -37,7 +37,7 @@ class Enviroment(BaseModel):
 
 class Config(BaseModel):
     Stacks: List[Stack]
-    Enviroments: List[Enviroment]
+    Environments: List[Enviroment]
 
     @staticmethod
     def parse(path: str = None):
@@ -53,8 +53,8 @@ class Config(BaseModel):
 
     def setup_env(self, env=None):
         if not env:
-            if self.Enviroments[0].profile:
-                os.environ["AWS_PROFILE"] = self.Enviroments[0].profile
+            if self.Environments[0].profile:
+                os.environ["AWS_PROFILE"] = self.Environments[0].profile
 
-            if self.Enviroments[0].region:
-                os.environ["AWS_DEFAULT_REGION"] = self.Enviroments[0].region
+            if self.Environments[0].region:
+                os.environ["AWS_DEFAULT_REGION"] = self.Environments[0].region
