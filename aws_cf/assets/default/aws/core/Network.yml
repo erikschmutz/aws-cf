@@ -1,0 +1,4 @@
+# This is an empty example of a core services
+Resources:
+  NullResource:
+    Type: AWS::CloudFormation::WaitConditionHandle

@@ -7,7 +7,7 @@ from .context import Context
 class Stack(BaseModel):
     path: str
     name: str
-    parameters: Optional[dict]
+    parameters: Optional[dict] = None
 
     @property
     def _path(self):

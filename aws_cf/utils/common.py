@@ -154,4 +154,4 @@ def get_yes_or_no(message):
             return True
 
         if result in ["no", "n"]:
-            return True
+            return False

@@ -2,6 +2,7 @@ import argparse
 
 from .meta import VERSION
 from .commands.deploy import deploy
+from .commands.init import init
 from .commands.diff import diff
 from .commands.info import info
 from .utils.logging import logger
@@ -11,7 +12,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "action", 
-        choices=['diff', 'info', 'deploy', 'package', "version"], 
+        choices=['diff', 'info', 'deploy', 'package', "version", "init"], 
         help='what action to preform'
     )
 
@@ -50,6 +51,9 @@ def main():
 
         if args.action == "info":
             info()
+
+        if args.action == "init":
+            init()
 
         if args.action == "diff":
             diff(args.path, args.root or ".")

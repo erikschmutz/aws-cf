@@ -11,6 +11,7 @@ setup(
     author_email='erik.rehn98@gmail.com',
     license='BSD 2-clause',
     packages=['aws_cf', 'aws_cf.utils', 'aws_cf.commands'],
+    packages=['aws_cf', 'aws_cf.utils', 'aws_cf.assets'],
     install_requires=['pydantic', 'boto3'],
     entry_points={
         'console_scripts': [
