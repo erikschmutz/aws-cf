@@ -8,6 +8,7 @@ import tempfile
 import json
 import datetime
 
+# 'StackStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_FAILED'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE'|'REVIEW_IN_PROGRESS'|'IMPORT_IN_PROGRESS'|'IMPORT_COMPLETE'|'IMPORT_ROLLBACK_IN_PROGRESS'|'IMPORT_ROLLBACK_FAILED'|'IMPORT_ROLLBACK_COMPLETE',
 
 def create_change_set(stack: Stack, config: Config):
     PREFIX = Context.get_changeset_prefix()
@@ -47,6 +48,27 @@ def create_change_set(stack: Stack, config: Config):
     )
 
 
+def wait_for_stack_deployed(name: str):
+    client = boto3.client("cloudformation") 
+
+    i = 0
+    MAX_ITERATIONS = 300
+    SLEEP_SECONDS = 5
+    while True:
+        time.sleep(SLEEP_SECONDS)
+        response = client.describe_stacks(
+           StackName=name,
+        )
+
+        stack = response["Stacks"][0]
+
+        if i > 100:
+            raise Exception(f"Stack {name} took more than {MAX_ITERATIONS*SLEEP_SECONDS} seconds to deploy.")
+
+        if stack["StackStatus"] not in ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS']:
+            break
+
+    
 def wait_for_ready(name, change_set_name):
     client = boto3.client("cloudformation") 
     while True:
@@ -96,6 +118,7 @@ def deploy_stack(name: str, change_set):
         ChangeSetName=change_set,
         StackName=name
     )
+    wait_for_stack_deployed(name)
 
 def create_stack(name: str, template:str):
     client = boto3.client("cloudformation")
@@ -104,6 +127,7 @@ def create_stack(name: str, template:str):
         TemplateBody=template, 
         Capabilities=["CAPABILITY_NAMED_IAM"],
     )
+    wait_for_stack_deployed(name)
 
 def package(stack: Stack, config: Config):
     args = [
