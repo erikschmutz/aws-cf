@@ -10,6 +10,18 @@ aws-cf diff services.yml
 aws-cf package services.yml
 ```
 
+## Getting started 
+Start by installing the pip dependency 
+
+```bash
+pip3 install aws-cf
+```
+
+Then you can setup a new project by running
+```bash
+aws-cf init
+```
+
 ## Example Configuration (services.yml):
 ```yml
 Environmentss:
