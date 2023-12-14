@@ -51,7 +51,7 @@ def create_change_set(stack: Stack, config: Config):
 def wait_for_stack_deployed(name: str):
     client = boto3.client("cloudformation") 
 
-    i = 0
+    iterations = 0
     MAX_ITERATIONS = 300
     SLEEP_SECONDS = 5
     while True:
@@ -62,11 +62,13 @@ def wait_for_stack_deployed(name: str):
 
         stack = response["Stacks"][0]
 
-        if i > 100:
+        if iterations > MAX_ITERATIONS:
             raise Exception(f"Stack {name} took more than {MAX_ITERATIONS*SLEEP_SECONDS} seconds to deploy.")
 
         if stack["StackStatus"] not in ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS']:
             break
+
+        iterations += 1
 
     
 def wait_for_ready(name, change_set_name):
