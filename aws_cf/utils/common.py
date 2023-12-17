@@ -139,7 +139,7 @@ def package(stack: Stack, config: Config):
             "--s3-bucket", config.enviroment.artifacts,
     ]
     
-    if config.Environments[0].profile:
+    if config.enviroment.profile:
         args.append("--profile")
         args.append(config.enviroment.profile)
 
