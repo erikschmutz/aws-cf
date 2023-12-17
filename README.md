@@ -47,4 +47,6 @@ To deploy these stacks, use the aws-cf deploy command, providing the configurati
 ## Core priciples
 
 1. Unlike many frameworks outthere, aws-cf should be able to integrate with existing cloudformation without needing any changes to the underlying code.
-2. It should be possible without any refactors to remove the framework and go back to writing cloudformation directly along with bash scripts.
+2. It should be possible without any refactors to the underlying code to remove the framework and go back to writing cloudformation directly along with bash scripts.
+3. It should be a minimal API, additional features should be part of add-ons instead of the core library. 
+4. The library should avoid dependecies.
