@@ -136,7 +136,7 @@ def package(stack: Stack, config: Config):
             "aws", "cloudformation", "package",
             "--template", stack._path,
             "--s3-prefix", "aws/stacks",
-            "--s3-bucket", config.enviroment,
+            "--s3-bucket", config.enviroment.artifacts,
     ]
     
     if config.Environments[0].profile:
