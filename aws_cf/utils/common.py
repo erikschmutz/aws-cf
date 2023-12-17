@@ -48,7 +48,8 @@ def create_change_set(stack: Stack, config: Config):
     )
 
 
-def wait_for_stack_deployed(name: str):
+def wait_for_status(name: str, status):
+
     client = boto3.client("cloudformation") 
 
     iterations = 0
@@ -65,12 +66,18 @@ def wait_for_stack_deployed(name: str):
         if iterations > MAX_ITERATIONS:
             raise Exception(f"Stack {name} took more than {MAX_ITERATIONS*SLEEP_SECONDS} seconds to deploy.")
 
-        if stack["StackStatus"] not in ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS']:
+        if stack["StackStatus"] not in status:
             break
 
         iterations += 1
 
-    
+
+def wait_for_stack_deployed(name: str):
+    return wait_for_status(['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
+
+def wait_for_deleted(name: str):
+    return wait_for_status(['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
+
 def wait_for_ready(name, change_set_name):
     client = boto3.client("cloudformation") 
     while True:
@@ -130,6 +137,13 @@ def create_stack(name: str, template:str):
         Capabilities=["CAPABILITY_NAMED_IAM"],
     )
     wait_for_stack_deployed(name)
+
+def delete_stack(name: str):
+    client = boto3.client("cloudformation")
+    client.delete_stack(
+        StackName=name,
+    )
+    wait_for_deleted(name)
 
 def package(stack: Stack, config: Config):
     args = [

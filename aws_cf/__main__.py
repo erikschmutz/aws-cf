@@ -5,6 +5,7 @@ from .commands.deploy import deploy
 from .commands.init import init
 from .commands.diff import diff
 from .commands.info import info
+from .commands.destroy import destroy
 from .utils.logging import logger
 from .utils.context import Context
 
@@ -12,7 +13,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "action", 
-        choices=['diff', 'info', 'deploy', 'package', "version", "init"], 
+        choices=['diff', 'info', 'deploy', 'package', "version", "init", "destroy"], 
         help='what action to preform'
     )
 
@@ -48,6 +49,9 @@ def main():
 
         if args.action == "deploy":
             deploy(args.path, args.root or ".")
+
+        if args.action == "destroy":
+            destroy(args.path, args.root or ".")
 
         if args.action == "info":
             info()
