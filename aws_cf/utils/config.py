@@ -64,7 +64,7 @@ class Config(BaseModel):
         if env:
             for e in self.Environments:
                 if e.name == env:
-                    _env = env
+                    _env = e
                     break
         else:
             _env = self.Environments[0]

@@ -2,6 +2,8 @@
 
 The **aws-cf** utility library is a simple and minimal tool designed to streamline the deployment of AWS CloudFormation stacks. It provides a set of commands that make deploying, comparing changes, and packaging artifacts for your AWS infrastructure easier.
 
+It is a superset of cloudformation meaning that any existing cloudformation should be able to be integrated with the framework.
+
 Usage:
 
 ```bash
@@ -41,3 +43,8 @@ Stacks:
 This example configuration file, services.yml, defines environments and stacks to deploy. Each environment specifies the AWS profile, region, and artifact bucket. Stacks are defined with their respective paths and names.
 
 To deploy these stacks, use the aws-cf deploy command, providing the configuration file as an argument. The utility will deploy each stack in the specified order, starting with the root directory as the base.
+
+## Core priciples
+
+1. Unlike many frameworks outthere, aws-cf should be able to integrate with existing cloudformation without needing any changes to the underlying code.
+2. It should be possible without any refactors to remove the framework and go back to writing cloudformation directly along with bash scripts.
