@@ -59,7 +59,7 @@ class Config(BaseModel):
             raise Exception("Not able to pase config: " + '"' + str(e) + '"')
 
     def setup_env(self, env=None):
-        _env = None
+        env = Context.args.env
 
         if env:
             for e in self.Environments:
