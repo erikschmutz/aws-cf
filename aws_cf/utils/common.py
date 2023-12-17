@@ -73,10 +73,10 @@ def wait_for_status(name: str, status):
 
 
 def wait_for_stack_deployed(name: str):
-    return wait_for_status(['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
+    return wait_for_status(name, ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
 
 def wait_for_deleted(name: str):
-    return wait_for_status(['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
+    return wait_for_status(name, ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
 
 def wait_for_ready(name, change_set_name):
     client = boto3.client("cloudformation") 
