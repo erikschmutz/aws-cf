@@ -26,7 +26,7 @@ aws-cf init
 
 ## Example Configuration (services.yml):
 ```yml
-Environmentss:
+Environments:
   - name: prod
     profile: `<AWS_PROFILE>`
     region: `eu-central-1`
