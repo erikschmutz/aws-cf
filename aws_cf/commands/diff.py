@@ -7,7 +7,7 @@ import re
 
 def diff(config_path, root_path):
     config = Config.parse(config_path)
-    config.setup_env()
+    config.setup_env(Context.get_args().env)
 
     services = config.Stacks    
 

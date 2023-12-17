@@ -9,7 +9,7 @@ from ..utils.common import create_change_set, remove_change_set, format_diff, ge
 
 def deploy(config_path, root_path):
     config = Config.parse(config_path)
-    config.setup_env()
+    config.setup_env(Context.get_args().env)
     services = config.Stacks
     logger.warning(f"Checking difference for stacks from file {config_path}")
     
