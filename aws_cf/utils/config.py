@@ -52,9 +52,24 @@ class Config(BaseModel):
             raise Exception("Not able to pase config: " + '"' + str(e) + '"')
 
     def setup_env(self, env=None):
-        if not env:
-            if self.Environments[0].profile:
-                os.environ["AWS_PROFILE"] = self.Environments[0].profile
+        _env = None
 
-            if self.Environments[0].region:
-                os.environ["AWS_DEFAULT_REGION"] = self.Environments[0].region
+        if env:
+            for e in self.Environments:
+                if e.name == env:
+                    _env = env
+                    break
+        else:
+            _env = self.Environments[0]
+          
+        
+        if not _env and env:
+            raise Exception("Not able to find env with name " + env)
+        
+        if not _env:
+            raise Exception("Not able to find env")
+
+
+        os.environ["AWS_PROFILE"] = _env.profile
+        os.environ["AWS_DEFAULT_REGION"] = _env.region
+        

@@ -29,7 +29,7 @@ def main():
     )
 
     parser.add_argument(
-        "-e", "--enviroment",
+        "-e", "--env",
         default="",
         help="which enviorment to use"
     )
