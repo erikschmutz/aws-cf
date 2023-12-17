@@ -8,8 +8,7 @@ import re
 def diff(config_path, root_path):
     config = Config.parse(config_path)
     config.setup_env(Context.get_args().env)
-
-    services = config.Stacks    
+    services = config.stacks   
 
     for service in services:
         if not re.search(Context.get_args().service, service.name):

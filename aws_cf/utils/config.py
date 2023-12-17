@@ -7,6 +7,7 @@ from .context import Context
 class Stack(BaseModel):
     path: str
     name: str
+    envs: Optional[List[str]] = None
     parameters: Optional[dict] = None
 
     @property
@@ -39,13 +40,19 @@ class Config(BaseModel):
     Stacks: List[Stack]
     Environments: List[Enviroment]
 
+    @property
+    def stacks(self):
+        if not Context.args.env:
+            return self.Stacks
+
+        return [stack for stack in self.Stacks if not stack.envs or Context.args.env in stack.envs]
+
     @staticmethod
     def parse(path: str = None):
         try:
             data = yaml.safe_load(open(path))
         except:
             raise IOError("Not able to find file at path: " + '"' + path + '"')
-
         try:
             return Config(**data)
         except Exception as e:
