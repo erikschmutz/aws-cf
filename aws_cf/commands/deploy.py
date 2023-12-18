@@ -44,6 +44,6 @@ def deploy(config_path, root_path):
             should_continue = get_yes_or_no(f"Do you wish to continue to update serivce: {service.name}")
 
             if should_continue:
-                create_stack(service.name, yml)
+                create_stack(service, yml)
 
         

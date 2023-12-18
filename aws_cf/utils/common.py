@@ -129,14 +129,20 @@ def deploy_stack(name: str, change_set):
     )
     wait_for_stack_deployed(name)
 
-def create_stack(name: str, template:str):
+def create_stack(stack: Stack, template):
     client = boto3.client("cloudformation")
+    parameters  =[]
+    
+    if stack.parameters:
+        parameters = [{"ParameterKey": key, "ParameterValue": stack.parameters[key]} for key in stack.parameters.keys()]
+
     response = client.create_stack(
-        StackName=name,
+        StackName=stack.name,
         TemplateBody=template, 
         Capabilities=["CAPABILITY_NAMED_IAM"],
+        Parameters=parameters
     )
-    wait_for_stack_deployed(name)
+    wait_for_stack_deployed(stack.name)
 
 def delete_stack(name: str):
     client = boto3.client("cloudformation")
