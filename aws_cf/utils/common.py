@@ -36,7 +36,7 @@ def create_change_set(stack: Stack, config: Config):
     client.create_change_set(
         ChangeSetName=change_set_name,
         StackName=name,
-        Capabilities=["CAPABILITY_NAMED_IAM"],
+        Capabilities=["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"],
         TemplateBody=package(stack, config),
         Parameters=parameters,
     )
@@ -139,7 +139,7 @@ def create_stack(stack: Stack, template):
     response = client.create_stack(
         StackName=stack.name,
         TemplateBody=template, 
-        Capabilities=["CAPABILITY_NAMED_IAM"],
+        Capabilities=["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"],
         Parameters=parameters
     )
     wait_for_stack_deployed(stack.name)
