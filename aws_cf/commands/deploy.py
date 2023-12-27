@@ -28,7 +28,7 @@ def deploy(config_path, root_path):
                 for diff in diffs:
                     logger.warning(f"> {diff}")
                 
-                should_continue = get_yes_or_no(f"Do you wish to continue to update serivce: {service.name}")
+                should_continue = get_yes_or_no(f"Do you wish to continue to update service: {service.name}")
 
                 if not should_continue:
                     remove_change_set(service.name, change_set["ChangeSetName"])
@@ -41,7 +41,7 @@ def deploy(config_path, root_path):
             yml = package(service, config)
             logger.warn(f"{service.name} new stack ⭐")
             logger.warn(yml)
-            should_continue = get_yes_or_no(f"Do you wish to continue to update serivce: {service.name}")
+            should_continue = get_yes_or_no(f"Do you wish to continue to update service: {service.name}")
 
             if should_continue:
                 create_stack(service, yml)

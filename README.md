@@ -1,4 +1,4 @@
-# `aws-cf`: Simplifying AWS CloudFormation Deployment
+# `aws-cf`: Unoptionated AWS CloudFormation Framework
 
 The **aws-cf** utility library is a simple and minimal tool designed to streamline the deployment of AWS CloudFormation stacks. It provides a set of commands that make deploying, comparing changes, and packaging artifacts for your AWS infrastructure easier.
 
@@ -7,9 +7,9 @@ It is a superset of cloudformation meaning that any existing cloudformation shou
 Usage:
 
 ```bash
-aws-cf deploy services.yml
-aws-cf diff services.yml
-aws-cf package services.yml
+aws-cf deploy # will deploy stacks in the services.yml file
+aws-cf diff # will check for differences the stacks in the services.yml file
+aws-cf package # will package the stacks in the services.yml file
 ```
 
 ## Getting started 
@@ -23,6 +23,8 @@ Then you can setup a new project by running
 ```bash
 aws-cf init
 ```
+
+This will initailise an empty project. You can now add your first environment.
 
 ## Example Configuration (services.yml):
 ```yml
@@ -46,7 +48,8 @@ To deploy these stacks, use the aws-cf deploy command, providing the configurati
 
 ## Core priciples
 
-1. Unlike many frameworks outthere, aws-cf should be able to integrate with existing cloudformation without needing any changes to the underlying code.
-2. It should be possible without any refactors to the underlying code to remove the framework and go back to writing cloudformation directly along with bash scripts.
-3. It should be a minimal API, additional features should be part of add-ons instead of the core library. 
-4. The library should avoid dependecies.
+1. Unlike many frameworks outthere, `aws-cf` should be able to integrate with existing cloudformation without needing any changes to the underlying code.
+2. It should be possible without any refactors to the underlying code to remove the `aws-cf` and go back to writing cloudformation directly along with bash scripts.
+3. It should be a minimal API, additional features should be part of add-ons instead of the core library.
+
+## When to use this framework compared to more opinioate
