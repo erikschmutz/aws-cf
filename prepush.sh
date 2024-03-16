@@ -1,0 +1,1 @@
+zip -r aws_cf/assets/templates/example-template.zip aws_cf/assets/templates/default
