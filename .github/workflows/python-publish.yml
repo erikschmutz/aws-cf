@@ -25,13 +25,12 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build templates
       run: |
-        zip -r aws_cf/assets/templates/default -o example-template.zip
+        zip -r example-template.zip aws_cf/assets/templates/default
     - name: Build templates artifacts
       uses: actions/upload-artifact@v4
       with:
         name: example-template.zip
-        path: |
-          example-template.zip
+        path: example-template.zip
           
     - name: Set up Python
       uses: actions/setup-python@v3
