@@ -9,7 +9,6 @@ def init():
     path = name or "./"
     create_aws_folder = get_yes_or_no("Do you want to create a aws folder in the project?")
     
-
     if os.path.exists(path) and len(os.listdir(f"{path}")) != 0:
         raise Exception("Init project needs to be in an empty directory")
 
