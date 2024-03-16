@@ -8,8 +8,8 @@ Environments:
     artifacts: <ARTIFACT_BUCKTE>
 
 Stacks:
-  - path: $root/aws/core/Network.yml
+  - path: $root/core/Network.yml
     name: Network
 
-  - path: $root/aws/services/App.yml
+  - path: $root/services/App.yml
     name: App
