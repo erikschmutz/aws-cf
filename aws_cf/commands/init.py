@@ -25,3 +25,5 @@ def init():
     with zipfile.ZipFile("tmp.zip", 'r') as zip_ref:
         zip_ref.extractall(".")
      
+
+    os.remove("tmp.zip")
