@@ -1,1 +1,1 @@
-zip -r aws_cf/assets/templates/example-template.zip aws_cf/assets/templates/default
+cd aws_cf/assets/templates/ && zip -r example-template.zip default && cd -
