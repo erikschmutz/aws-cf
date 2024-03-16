@@ -1,1 +1,1 @@
-zip -r $0/default.zip default
+zip -r $1/default.zip default
