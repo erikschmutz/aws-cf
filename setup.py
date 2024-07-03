@@ -11,7 +11,7 @@ setup(
     author_email='erik.rehn98@gmail.com',
     license='BSD 2-clause',
     packages=['aws_cf', 'aws_cf.utils', 'aws_cf.commands'],
-    install_requires=['pydantic', 'boto3', 'pyaml'],
+    install_requires=['pydantic', 'boto3', 'pyaml', 'requests'],
     entry_points={
         'console_scripts': [
             'aws-cf = aws_cf.__main__:main'
