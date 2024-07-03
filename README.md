@@ -52,4 +52,4 @@ To deploy these stacks, use the aws-cf deploy command, providing the configurati
 2. It should be possible without any refactors to the underlying code to remove the `aws-cf` and go back to writing cloudformation directly along with bash scripts.
 3. It should be a minimal API, additional features should be part of add-ons instead of the core library.
 
-## When to use this framework compared to more opinioate
+## When to use this framework compared to more opinionate.
