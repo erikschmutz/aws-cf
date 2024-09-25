@@ -150,7 +150,6 @@ def format_diff(diff, depth = 0):
         return f"{nested}"
 
     if len(details):
-        print(details)
         warnings = {
             "Always": "(🚨 - requires recreation)"
         }
