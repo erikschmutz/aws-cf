@@ -110,7 +110,7 @@ def remove_change_set(name: str, change_set_name: str):
 
 def format_diffs(stack_name, change_set, depth = 1):
 
-    out = f"📚 {stack_name} stack changed ({len(change_set["Changes"])})\n"
+    out = f"{stack_name} stack changed ({len(change_set["Changes"])})\n\n"
 
     if not len(change_set["Changes"]):
         return f"{stack_name} has no changes"
@@ -120,7 +120,7 @@ def format_diffs(stack_name, change_set, depth = 1):
     
     change_set["Changes"].sort(key=sort_change, reverse=True)
 
-    out += "\n".join([" " + tab(depth) + format_diff(change, depth + 1) for change in change_set["Changes"]])
+    out += "\n".join([tab(depth + 1) + format_diff(change, depth + 1) for change in change_set["Changes"]])
     return out
 
 
@@ -150,7 +150,17 @@ def format_diff(diff, depth = 0):
         return f"{nested}"
 
     if len(details):
-        return f"{actionName[action]} {resource_type} with id {resource_id}\n\n"
+        print(details)
+        warnings = {
+            "Always": "(🚨 - requires recreation)"
+        }
+
+        out = f"{actionName[action]} {resource_type} with id {resource_id}\n"
+        for detail in details:
+            target = detail["Target"]
+            out += f"{tab(depth + 1)}{target["Name"]} changed {warnings.get(target["RequiresRecreation"], "")}\n"
+            
+        return out
         
     return f"{actionName[action]} {resource_type} with id {resource_id}"
 
