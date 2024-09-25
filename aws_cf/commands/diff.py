@@ -2,8 +2,9 @@ from ..utils.logging import logger
 from ..utils.config import Config
 from ..utils.context import Context
 import sys
-from ..utils.common import create_change_set,package, remove_change_set, format_diff
+from ..utils.common import create_change_set,package, remove_change_set, format_diff,format_diffs
 import re
+import json 
 
 def diff(config_path, root_path):
     config = Config.parse(config_path)
@@ -15,19 +16,11 @@ def diff(config_path, root_path):
             continue
 
         change_set = create_change_set(service, config)
-
+        logger.info("Created change set...")
 
         if change_set:
-            diffs = [format_diff(change)for change in change_set["Changes"]]
-            logger.warn(f"{service.name} (changes {len(diffs)})")
-
-            if len(diffs):
-                logger.warning(f"  🆕  Found {len(diffs)} differences for the stack {service.name}")
-                for diff in diffs:
-                    logger.warning(f"> {diff}")
-            else:
-                logger.info(f"  No changes")
-
+            result = format_diffs(service.name, change_set)
+            logger.warn(result)
             remove_change_set(service.name, change_set["ChangeSetName"])
         
         else:

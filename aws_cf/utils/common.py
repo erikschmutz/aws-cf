@@ -10,6 +10,8 @@ import datetime
 
 # 'StackStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_FAILED'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE'|'REVIEW_IN_PROGRESS'|'IMPORT_IN_PROGRESS'|'IMPORT_COMPLETE'|'IMPORT_ROLLBACK_IN_PROGRESS'|'IMPORT_ROLLBACK_FAILED'|'IMPORT_ROLLBACK_COMPLETE',
 
+def tab(index):
+    return  index * "  "
 def create_change_set(stack: Stack, config: Config):
     PREFIX = Context.get_changeset_prefix()
 
@@ -39,6 +41,7 @@ def create_change_set(stack: Stack, config: Config):
         Capabilities=["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"],
         TemplateBody=package(stack, config),
         Parameters=parameters,
+        IncludeNestedStacks=True
     )
     wait_for_ready(name, change_set_name)
 
@@ -104,7 +107,25 @@ def remove_change_set(name: str, change_set_name: str):
         StackName=name
     )
 
-def format_diff(diff):
+
+def format_diffs(stack_name, change_set, depth = 1):
+
+    out = f"📚 {stack_name} stack changed ({len(change_set["Changes"])})\n"
+
+    if not len(change_set["Changes"]):
+        return f"{stack_name} has no changes"
+
+    def sort_change(a):
+        return a["ResourceChange"]["ResourceType"]
+    
+    change_set["Changes"].sort(key=sort_change, reverse=True)
+
+    out += "\n".join([" " + tab(depth) + format_diff(change, depth + 1) for change in change_set["Changes"]])
+    return out
+
+
+def format_diff(diff, depth = 0):
+    change = diff["ResourceChange"]
     action = diff["ResourceChange"]["Action"]
     resource_id = diff["ResourceChange"]["LogicalResourceId"]
     resource_type = diff["ResourceChange"]["ResourceType"]
@@ -116,8 +137,20 @@ def format_diff(diff):
         "Remove": "Removing"
     }
 
+    if resource_type == "AWS::CloudFormation::Stack":
+        client = boto3.client("cloudformation")
+        stack_name = change["PhysicalResourceId"].split("/")[-2]
+        change_set_name = change["ChangeSetId"].split("/")[-2]
+        changes = client.describe_change_set(
+            ChangeSetName=change_set_name,
+            StackName=stack_name
+        )
+        
+        nested = format_diffs(resource_id, changes, depth)
+        return f"{nested}"
+
     if len(details):
-        return f"{actionName[action]} {resource_type} with id {resource_id} \n{json.dumps(details)}\n\n"
+        return f"{actionName[action]} {resource_type} with id {resource_id}\n\n"
         
     return f"{actionName[action]} {resource_type} with id {resource_id}"
 
