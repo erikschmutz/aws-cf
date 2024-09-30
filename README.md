@@ -1,32 +1,30 @@
-# `aws-cf`: Unoptionated AWS CloudFormation Framework
+# `aws-cf`: Lightweight AWS CloudFormation Framework
+The aws-cf library is a straightforward and minimal tool designed to simplify the deployment of AWS CloudFormation stacks. It offers a set of commands that make it easier to deploy, compare, and package your AWS infrastructure resources.
 
-The **aws-cf** utility library is a simple and minimal tool designed to streamline the deployment of AWS CloudFormation stacks. It provides a set of commands that make deploying, comparing changes, and packaging artifacts for your AWS infrastructure easier.
+Being a superset of CloudFormation, aws-cf seamlessly integrates with any existing CloudFormation setup, making adoption smooth and hassle-free.
 
-It is a superset of cloudformation meaning that any existing cloudformation should be able to be integrated with the framework.
-
-Usage:
-
+Key Commands:
 ```bash
-aws-cf deploy # will deploy stacks in the services.yml file
-aws-cf diff # will check for differences the stacks in the services.yml file
-aws-cf package # will package the stacks in the services.yml file
+aws-cf deploy   # Deploys the stacks defined in the services.yml file
+aws-cf diff     # Checks for differences in the stacks listed in the services.yml file
+aws-cf package  # Packages the stacks mentioned in the services.yml file
 ```
-
-## Getting started 
-Start by installing the pip dependency 
+Getting Started
+To begin, install the aws-cf library via pip:
 
 ```bash
 pip3 install aws-cf
 ```
 
-Then you can setup a new project by running
+Initialize a new project by running:
+
 ```bash
 aws-cf init
 ```
+This will create a new project. You can now start by adding your first environment configuration.
 
-This will initailise an empty project. You can now add your first environment.
+## Sample Configuration (services.yml):
 
-## Example Configuration (services.yml):
 ```yml
 Environments:
   - name: prod
@@ -41,15 +39,14 @@ Stacks:
   - path: `$root/aws/API.yml`
     name: `API`
 ```
+In this example configuration file, services.yml, environments and stacks are defined for deployment. Each environment specifies an AWS profile, region, and artifact bucket, while stacks are defined with their respective file paths and names.
 
-This example configuration file, services.yml, defines environments and stacks to deploy. Each environment specifies the AWS profile, region, and artifact bucket. Stacks are defined with their respective paths and names.
+To deploy these stacks, simply run the aws-cf deploy command. The utility will deploy each stack in the order specified, using the root directory as the base path.
 
-To deploy these stacks, use the aws-cf deploy command, providing the configuration file as an argument. The utility will deploy each stack in the specified order, starting with the root directory as the base.
+## Why Use aws-cf Instead of More Opinionated Tools?
+aws-cf provides a simple wrapper around CloudFormation, serving as an alternative to more opinionated frameworks like Terraform or AWS CDK. Unlike these tools, aws-cf does not alter the underlying CloudFormation, making it easy to stop using if needed without major changes to your infrastructure.
 
-## Core priciples
-
-1. Unlike many frameworks outthere, `aws-cf` should be able to integrate with existing cloudformation without needing any changes to the underlying code.
-2. It should be possible without any refactors to the underlying code to remove the `aws-cf` and go back to writing cloudformation directly along with bash scripts.
-3. It should be a minimal API, additional features should be part of add-ons instead of the core library.
-
-## When to use this framework compared to more opinionate.
+## Core Principles
+Seamless Integration: aws-cf works with your existing CloudFormation templates without requiring any modifications.
+Non-Intrusive: You can easily revert to writing CloudFormation directly and managing deployments with bash scripts, without any major refactors.
+Minimal API: The core library remains lightweight, with additional features available through optional add-ons rather than baked into the core.
