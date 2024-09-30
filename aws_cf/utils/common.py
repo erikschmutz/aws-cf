@@ -12,6 +12,7 @@ import datetime
 
 def tab(index):
     return  index * "  "
+
 def create_change_set(stack: Stack, config: Config):
     PREFIX = Context.get_changeset_prefix()
 
@@ -137,7 +138,7 @@ def format_diff(diff, depth = 0):
         "Remove": "Removing"
     }
 
-    if resource_type == "AWS::CloudFormation::Stack":
+    if resource_type == "AWS::CloudFormation::Stack" and action=="Modify":
         client = boto3.client("cloudformation")
         stack_name = change["PhysicalResourceId"].split("/")[-2]
         change_set_name = change["ChangeSetId"].split("/")[-2]
