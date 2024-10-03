@@ -111,7 +111,8 @@ def remove_change_set(name: str, change_set_name: str):
 
 def format_diffs(stack_name, change_set, depth = 1):
 
-    out = f"{stack_name} stack changed ({len(change_set["Changes"])})\n\n"
+    changes_len = len(change_set["Changes"])
+    out = f"{stack_name} stack changed ({changes_len})\n\n"
 
     if not len(change_set["Changes"]):
         return f"{stack_name} has no changes"
