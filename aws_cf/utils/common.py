@@ -159,7 +159,7 @@ def format_diff(diff, depth = 0):
         out = f"{actionName[action]} {resource_type} with id {resource_id}\n"
         for detail in details:
             target = detail["Target"]
-            out += f"{tab(depth + 1)}{target["Name"]} changed {warnings.get(target["RequiresRecreation"], "")}\n"
+            out += f"{tab(depth + 1)}{target['Name']} changed {warnings.get(target['RequiresRecreation'], '')}\n"
             
         return out
         
