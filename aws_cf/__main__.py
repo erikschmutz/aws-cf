@@ -66,7 +66,7 @@ def main():
         if args.verbose:
             raise e
         logger.error(str(e))
-
+        exit(1)
 
 
 if __name__ == '__main__':
