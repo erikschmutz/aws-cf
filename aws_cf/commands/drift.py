@@ -53,7 +53,7 @@ class YAMLColor(yaml.YAMLObject):
         return data
 
 def detect_drift(stack_name, config):
-    print(f"Detecting drift for {stack_name}...")
+    logger.info(f"Detecting drift for {stack_name}...")
 
     client = boto3.client("cloudformation") 
     response = client.detect_stack_drift(
