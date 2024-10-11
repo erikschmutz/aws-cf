@@ -5,6 +5,7 @@ from .commands.deploy import deploy
 from .commands.init import init
 from .commands.diff import diff
 from .commands.info import info
+from .commands.drift import drift
 from .commands.destroy import destroy
 from .utils.logging import logger
 from .utils.context import Context
@@ -13,7 +14,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "action", 
-        choices=['diff', 'info', 'deploy', 'package', "version", "init", "destroy"], 
+        choices=[
+            'diff', 'info', 'deploy', 'package', 
+            "version", "init", "destroy", "drift"
+        ], 
         help='what action to preform'
     )
 
@@ -59,8 +63,13 @@ def main():
         if args.action == "init":
             init()
 
+
         if args.action == "diff":
             diff(args.path, args.root or ".")
+
+
+        if args.action == "drift":
+            drift(args.path, args.root or ".")
 
     except Exception as e:
         if args.verbose:

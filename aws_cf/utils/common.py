@@ -51,7 +51,6 @@ def create_change_set(stack: Stack, config: Config):
         StackName=name
     )
 
-
 def wait_for_status(name: str, status):
 
     client = boto3.client("cloudformation") 
@@ -74,7 +73,6 @@ def wait_for_status(name: str, status):
             break
 
         iterations += 1
-
 
 def wait_for_stack_deployed(name: str):
     return wait_for_status(name, ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
@@ -107,7 +105,6 @@ def remove_change_set(name: str, change_set_name: str):
         ChangeSetName=change_set_name,
         StackName=name
     )
-
 
 def format_diffs(stack_name, change_set, depth = 1):
 
@@ -153,7 +150,8 @@ def format_diff(diff, depth = 0):
 
     if len(details):
         warnings = {
-            "Always": "(🚨 - requires recreation)"
+            "Always": "(🚨 - requires recreation)",
+            "Never": "(no recreation)"
         }
 
         out = f"{actionName[action]} {resource_type} with id {resource_id}\n"

@@ -47,6 +47,16 @@ class Config(BaseModel):
 
         return [stack for stack in self.Stacks if not stack.envs or Context.args.env in stack.envs]
 
+
+    def look_up_stack(self, name):
+        for stack in self.stacks:
+            if stack.name == name:
+                return stack
+
+        return None
+
+        
+
     @staticmethod
     def parse(path: str = None):
         try:
