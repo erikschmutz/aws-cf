@@ -158,7 +158,7 @@ def detect_drift(stack_name, config):
                 transformed = format_value(parse(diff["ActualValue"]), "$GREEN$")
                 resources = set_value_by_path(path, resources, transformed)
                 
-    print(apply_colors(yaml.safe_dump(resources)))
+    logger.info(apply_colors(yaml.safe_dump(resources)))
 
 
 
