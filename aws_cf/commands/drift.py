@@ -119,7 +119,7 @@ def detect_drift(stack_name, config):
     def format_value(node, prefix):
         if isinstance(node, str):
             return prefix + node
-        print("node", node)
+            
         keys = node.keys() if isinstance(node, dict) else range(len(node))
 
         for key in list(keys):
