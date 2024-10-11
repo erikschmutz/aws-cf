@@ -77,6 +77,7 @@ def detect_drift(stack_name, config):
             raise Exception(f"Stack {stack_name} took more than {MAX_ITERATIONS*SLEEP_SECONDS} seconds to deploy.")
 
         if stack["DetectionStatus"] == 'DETECTION_FAILED':
+            print(stack)
             raise Exception(f"Creating drift failed for stack {stack_name}...")
 
         if stack["DetectionStatus"] != 'DETECTION_IN_PROGRESS':
