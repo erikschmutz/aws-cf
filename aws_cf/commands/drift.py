@@ -103,7 +103,7 @@ def detect_drift(stack_name, config):
         curr = target
 
         for p in path:
-            if isinstance(target, list):
+            if isinstance(curr, list):
                 curr = curr[int(p)]
             else:
                 curr = curr.get(p)
@@ -152,7 +152,6 @@ def detect_drift(stack_name, config):
     for resource in response["StackResourceDrifts"]:
         resource_id = resource["LogicalResourceId"]
         for diff in resource["PropertyDifferences"]:
-            print(diff)
             if diff["DifferenceType"] == "ADD":
                 path = "/" + resource_id + "/Properties" + diff["PropertyPath"]
                 transformed = format_value(parse(diff["ActualValue"]), "$GREEN$")
