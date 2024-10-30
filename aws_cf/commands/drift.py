@@ -97,7 +97,7 @@ def detect_drift(stack_name, config):
         StackName=stack_name
     )
 
-    def set_value_by_path(path: str, target, value, action: str):
+    def set_value_by_path(path: str, target, value):
         *path, last = path[1:].split("/")
         curr = target
 
@@ -109,7 +109,6 @@ def detect_drift(stack_name, config):
 
 
         if isinstance(curr, list):
-            
             curr.insert(int(last) + 1, value)
         else:
             curr[last] = value
