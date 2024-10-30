@@ -72,7 +72,6 @@ def detect_drift(stack_name, config):
             StackDriftDetectionId=stack_drift_detection_id
         )
 
-
         if iterations > MAX_ITERATIONS:
             raise Exception(f"Stack {stack_name} took more than {MAX_ITERATIONS*SLEEP_SECONDS} seconds to deploy.")
 
@@ -98,7 +97,7 @@ def detect_drift(stack_name, config):
         StackName=stack_name
     )
 
-    def set_value_by_path(path: str, target, value):
+    def set_value_by_path(path: str, target, value, action: str):
         *path, last = path[1:].split("/")
         curr = target
 
@@ -110,6 +109,7 @@ def detect_drift(stack_name, config):
 
 
         if isinstance(curr, list):
+            
             curr.insert(int(last) + 1, value)
         else:
             curr[last] = value
@@ -152,6 +152,8 @@ def detect_drift(stack_name, config):
     for resource in response["StackResourceDrifts"]:
         resource_id = resource["LogicalResourceId"]
         for diff in resource["PropertyDifferences"]:
+            print(resource_id)
+            print(diff)
             if diff["DifferenceType"] == "ADD":
                 path = "/" + resource_id + "/Properties" + diff["PropertyPath"]
                 transformed = format_value(parse(diff["ActualValue"]), "$GREEN$")
