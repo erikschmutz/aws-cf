@@ -37,7 +37,7 @@ def add_color(node, color):
 def apply_colors(text: str):
     out = ""
     for line in text.split("\n"):
-        out += line.replace("$GREEN$", green) 
+        out += line.replace("$GREEN$", green).replace("$YELLOW$", yellow) 
         out += reset
         out += "\n"
     return out
@@ -152,10 +152,16 @@ def detect_drift(stack_name, config):
     for resource in response["StackResourceDrifts"]:
         resource_id = resource["LogicalResourceId"]
         for diff in resource["PropertyDifferences"]:
-
+            print(diff)
             if diff["DifferenceType"] == "ADD":
                 path = "/" + resource_id + "/Properties" + diff["PropertyPath"]
                 transformed = format_value(parse(diff["ActualValue"]), "$GREEN$")
+                resources = set_value_by_path(path, resources, transformed)
+                
+            if diff["DifferenceType"] == "NOT_EQUAL":
+                path = "/" + resource_id + "/Properties" + diff["PropertyPath"]
+                actual = parse(diff["ActualValue"] + "→" + diff["ExpectedValue"])
+                transformed = format_value(actual, "$YELLOW$")
                 resources = set_value_by_path(path, resources, transformed)
                 
     logger.info(apply_colors(yaml.safe_dump(resources)))
