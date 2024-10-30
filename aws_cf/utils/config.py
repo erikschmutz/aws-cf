@@ -42,10 +42,8 @@ class Config(BaseModel):
 
     @property
     def stacks(self):
-        if not Context.args.env:
-            return self.Stacks
-
-        return [stack for stack in self.Stacks if not stack.envs or Context.args.env in stack.envs]
+        env = self.enviroment.name
+        return [stack for stack in self.Stacks if not stack.envs or env in stack.envs]
 
 
     def look_up_stack(self, name):

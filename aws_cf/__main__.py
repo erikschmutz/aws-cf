@@ -21,6 +21,7 @@ def main():
         help='what action to preform'
     )
 
+
     parser.add_argument(
         "-s", "--service",
         default=".*",
@@ -33,6 +34,9 @@ def main():
         help='path to the file describing the services'
     )
 
+    parser.add_argument('-y', '--yes', action='store_true')
+
+
     parser.add_argument(
         "-e", "--env",
         default="",
@@ -42,7 +46,6 @@ def main():
     parser.add_argument("-v", '--version', action='version', help='path to the file describing the services', version='aws-cf: ' + VERSION)
     parser.add_argument("-r", "--root")
     parser.add_argument("-vb", "--verbose", type=bool)
-    
 
     args = parser.parse_args()
 
@@ -50,6 +53,7 @@ def main():
         Context.set_root(args.root or ".")
         Context.set_args(args)
         Context.set_service_path(args.path)
+        Context.set_auto_yes(args.yes)
 
         if args.action == "deploy":
             deploy(args.path, args.root or ".")

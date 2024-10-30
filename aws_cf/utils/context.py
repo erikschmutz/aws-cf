@@ -4,6 +4,7 @@ class Context:
     root: str
     service_path: str
     args: Any
+    auto_yes: bool = False
 
     @staticmethod
     def get_args():
@@ -12,6 +13,10 @@ class Context:
     @staticmethod
     def set_args(args):
         Context.args = args
+
+    @staticmethod
+    def set_auto_yes(args):
+        Context.auto_yes = args
 
 
     @staticmethod

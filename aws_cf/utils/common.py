@@ -211,6 +211,9 @@ def package(stack: Stack, config: Config):
     return result.decode()
 
 def get_yes_or_no(message):
+    if Context.auto_yes:
+        return True
+        
     while True:
         result = input(message + " (enter y/n)")
 
