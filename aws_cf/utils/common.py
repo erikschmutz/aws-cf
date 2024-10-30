@@ -69,13 +69,17 @@ def wait_for_status(name: str, status):
         if iterations > MAX_ITERATIONS:
             raise Exception(f"Stack {name} took more than {MAX_ITERATIONS*SLEEP_SECONDS} seconds to deploy.")
 
+        
         if stack["StackStatus"] not in status:
-            break
+            return stack
 
         iterations += 1
 
 def wait_for_stack_deployed(name: str):
-    return wait_for_status(name, ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
+    stack = wait_for_status(name, ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
+
+    if stack["StackStatus"] == 'UPDATE_ROLLBACK_IN_PROGRESS':
+        raise Exception("Something went wrong when deploying stack... check cloudformation GUI")
 
 def wait_for_deleted(name: str):
     return wait_for_status(name, ['CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS'])
@@ -167,7 +171,7 @@ def format_diff(diff, depth = 0):
 
 def deploy_stack(name: str, change_set):
     client = boto3.client("cloudformation")
-    response = client.execute_change_set(
+    client.execute_change_set(
         ChangeSetName=change_set,
         StackName=name
     )
@@ -213,7 +217,7 @@ def package(stack: Stack, config: Config):
 def get_yes_or_no(message):
     if Context.auto_yes:
         return True
-        
+
     while True:
         result = input(message + " (enter y/n)")
 
