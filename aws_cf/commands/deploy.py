@@ -39,8 +39,10 @@ def deploy(config_path, root_path):
                 if not should_continue:
                     remove_change_set(service.name, change_set["ChangeSetName"])
                 else:
-                    logger.info("Deploying service...")
+                    name = service.name
+                    logger.info(f"Deploying service {name}...")
                     deploy_stack(service.name, change_set["ChangeSetName"])
+                    logger.info(f"Successfully deployed{name}...")
             else:
                 logger.info(f"Found no differences for the stack {service.name}")
         else:
