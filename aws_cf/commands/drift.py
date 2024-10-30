@@ -160,7 +160,7 @@ def detect_drift(stack_name, config):
                 
             if diff["DifferenceType"] == "NOT_EQUAL":
                 path = "/" + resource_id + "/Properties" + diff["PropertyPath"]
-                actual = parse(diff["ActualValue"] + "→" + diff["ExpectedValue"])
+                actual = parse(diff["ExpectedValue"] + " -> " + diff["ActualValue"])
                 transformed = format_value(actual, "$YELLOW$")
                 resources = set_value_by_path(path, resources, transformed)
                 
