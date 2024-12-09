@@ -56,8 +56,8 @@ def wait_for_status(name: str, status):
     client = boto3.client("cloudformation") 
 
     iterations = 0
-    MAX_ITERATIONS = 300
-    SLEEP_SECONDS = 1
+    MAX_ITERATIONS = 3600
+    SLEEP_SECONDS = 2
     while True:
         time.sleep(SLEEP_SECONDS)
         response = client.describe_stacks(
