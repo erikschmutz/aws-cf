@@ -57,7 +57,7 @@ def wait_for_status(name: str, status):
 
     iterations = 0
     MAX_ITERATIONS = 300
-    SLEEP_SECONDS = 5
+    SLEEP_SECONDS = 1
     while True:
         time.sleep(SLEEP_SECONDS)
         response = client.describe_stacks(
