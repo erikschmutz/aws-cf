@@ -7,6 +7,46 @@ import json
 from ..utils.common import create_change_set, remove_change_set, format_diff, get_yes_or_no, deploy_stack, create_stack,package,format_diffs
 
 
+import boto3
+import hashlib
+
+def check_cache(service, config: Config):
+    string = package(service, config)
+    hash = hashlib.sha256(string.encode('utf-8')).hexdigest()
+    bucket, *keys = config.enviroment.cache.replace("s3://", "").split("/")
+    key = "/".join(keys)
+    s3 = boto3.resource("s3")
+
+    if not key.endswith("/"):
+        key += "/"
+
+    key = key + service.path + ".lock"
+    try:
+        o = s3.Object(bucket, key).get()['Body'].read()
+
+        if str(o, "utf-8") == hash:
+            return True
+
+    except Exception as e:
+        return False
+
+    
+def update_cache(service, config: Config):
+    str = package(service, config)
+    hash = hashlib.sha256(str.encode('utf-8')).hexdigest()
+    bucket, *keys = config.enviroment.cache.replace("s3://", "").split("/")
+    key = "/".join(keys)
+    s3 = boto3.resource("s3")
+
+    if not key.endswith("/"):
+        key += "/"
+
+    key = key + service.path + ".lock"
+    print(f"Updating cache setting {key} to {hash}...")
+    s3.Object(bucket, key).put(Body=hash)
+
+
+
 def deploy(config_path, root_path):
     config = Config.parse(config_path)
     config.setup_env(Context.get_args().env)
@@ -22,6 +62,11 @@ def deploy(config_path, root_path):
     for service in services:
         if not re.search(Context.get_args().service, service.name):
             continue
+
+        if config.enviroment.cache:
+            if check_cache(service, config):
+                logger.info(f"No updates since last cache found for {service.name} hence skipping")
+                continue
 
         change_set = create_change_set(service, config)
         if change_set:
@@ -43,7 +88,11 @@ def deploy(config_path, root_path):
                     logger.info(f"Deploying service {name}...")
                     deploy_stack(service.name, change_set["ChangeSetName"])
                     logger.info(f"Successfully deployed {name}...")
+                    if config.enviroment.cache:
+                        update_cache(service, config) 
             else:
+                if config.enviroment.cache:
+                    update_cache(service, config) 
                 logger.info(f"Found no differences for the stack {service.name}")
         else:
             yml = package(service, config)
@@ -54,4 +103,5 @@ def deploy(config_path, root_path):
             if should_continue:
                 create_stack(service, yml)
 
-        
+                if config.enviroment.cache:
+                    update_cache(service, config) 

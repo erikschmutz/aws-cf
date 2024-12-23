@@ -33,6 +33,7 @@ class Enviroment(BaseModel):
     name: str
     region: Optional[str] = None
     profile: Optional[str] = None
+    cache: Optional[str] = None
 
 
 
