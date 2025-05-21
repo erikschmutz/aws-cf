@@ -111,9 +111,11 @@ def remove_change_set(name: str, change_set_name: str):
     )
 
 def format_diffs(stack_name, change_set, depth = 1):
-
     changes_len = len(change_set["Changes"])
     out = f"{stack_name} stack changed ({changes_len})\n\n"
+
+    if change_set["Status"] == "FAILED":
+        raise Exception("Failed to create diff: " + change_set["StatusReason"])
 
     if not len(change_set["Changes"]):
         return f"{stack_name} has no changes"
@@ -146,8 +148,9 @@ def format_diff(diff, depth = 0):
         change_set_name = change["ChangeSetId"].split("/")[-2]
         changes = client.describe_change_set(
             ChangeSetName=change_set_name,
-            StackName=stack_name
-        )
+            StackName=stack_name,
+            IncludePropertyValues=True
+       ) 
         
         nested = format_diffs(resource_id, changes, depth)
         return f"{nested}"
