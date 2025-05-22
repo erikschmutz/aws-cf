@@ -114,6 +114,9 @@ def format_diffs(stack_name, change_set, depth = 1):
     changes_len = len(change_set["Changes"])
     out = f"{stack_name} stack changed ({changes_len})\n\n"
 
+    if change_set["Status"] == "FAILED" and change_set["StatusReason"].startswith("The submitted information didn't contain changes"):
+        return f"{stack_name} has no changes"
+
     if change_set["Status"] == "FAILED":
         raise Exception("Failed to create diff: " + change_set["StatusReason"])
 
