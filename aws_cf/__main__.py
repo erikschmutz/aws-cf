@@ -34,6 +34,11 @@ def main():
         help='path to the file describing the services'
     )
 
+    parser.add_argument(
+        "--role-arn",
+        help="stack service role arn",
+    )
+
     parser.add_argument('-y', '--yes', action='store_true')
 
 
@@ -57,7 +62,7 @@ def main():
         Context.set_auto_yes(args.yes)
 
         if args.action == "deploy":
-            deploy(args.path, args.root or ".")
+            deploy(args.path, args.root or ".", args.role_arn)
 
         if args.action == "destroy":
             destroy(args.path, args.root or ".")
@@ -70,7 +75,7 @@ def main():
 
 
         if args.action == "diff":
-            diff(args.path, args.root or ".")
+            diff(args.path, args.root or ".", args.role_arn)
 
 
         if args.action == "drift":
