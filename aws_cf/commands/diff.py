@@ -2,7 +2,7 @@ from ..utils.logging import logger
 from ..utils.config import Config
 from ..utils.context import Context
 import sys
-from ..utils.common import create_change_set,package, remove_change_set, format_diff,format_diffs
+from ..utils.common import create_change_set,package, remove_change_set, format_diff, format_diffs, select_role
 import re
 import json 
 import boto3
@@ -64,6 +64,8 @@ def diff(config_path, root_path, role_arn : str | None):
         if config.enviroment.cache:
             if check_cache(service, config):
                 continue
+
+        role_arn = select_role(role_arn, service.role)
 
         change_set = create_change_set(service, config, role_arn)
         logger.info("Created change set...")

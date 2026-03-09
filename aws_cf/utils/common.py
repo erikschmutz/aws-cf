@@ -1,7 +1,9 @@
 import boto3
 import botocore.exceptions
 import time
+import re
 import subprocess
+from ..utils.logging import logger
 from .config import Config, Stack
 from .context import Context
 import tempfile
@@ -179,6 +181,48 @@ def format_diff(diff, depth = 0):
         return out
         
     return f"{actionName[action]} {resource_type} with id {resource_id}"
+
+def select_role(role_arn_argument: str | None, role_yaml_parameter: str | None) -> str | None:
+    iam_role_arn_re = r"^arn:aws:iam::\d{12}:role/[A-Za-z0-9+=,.@_\-/]+$"
+    iam_role_name_re = r"^[A-Za-z0-9+=,.@_\-/]+$"
+
+    if role_arn_argument is None and role_yaml_parameter is None:
+        return None
+
+    # --role-arn takes precedence over YAML role
+    if role_arn_argument is not None:
+        if re.fullmatch(iam_role_arn_re, role_arn_argument) is None:
+            logger.error(
+                "Invalid value for --role-arn: %r. Expected an IAM role ARN in the format "
+                "'arn:aws:iam::<12-digit-account-id>:role/<role-name-or-path>'.",
+                role_arn_argument,
+            )
+            exit(1)
+
+        if role_yaml_parameter is not None:
+            logger.warning(
+                "Both --role-arn and YAML role were provided. Using --role-arn %r and ignoring YAML role %r.",
+                role_arn_argument,
+                role_yaml_parameter,
+            )
+
+        return role_arn_argument
+
+    # YAML role provided
+    if re.fullmatch(iam_role_arn_re, role_yaml_parameter):
+        return role_yaml_parameter
+
+    if re.fullmatch(iam_role_name_re, role_yaml_parameter):
+        account_id = boto3.client("sts").get_caller_identity()["Account"]
+        role_arn = f"arn:aws:iam::{account_id}:role/{role_yaml_parameter}"
+        return role_arn
+
+    logger.error(
+        "Invalid YAML role value: %r. Expected either an IAM role ARN in the format "
+        "'arn:aws:iam::<12-digit-account-id>:role/<role-name-or-path>' or a valid IAM role name.",
+        role_yaml_parameter,
+    )
+    exit(1)
 
 def deploy_stack(name: str, change_set):
     client = boto3.client("cloudformation")

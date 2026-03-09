@@ -7,6 +7,7 @@ from .context import Context
 class Stack(BaseModel):
     path: str
     name: str
+    role: Optional[str] = None
     envs: Optional[List[str]] = None
     parameters: Optional[dict] = None
 

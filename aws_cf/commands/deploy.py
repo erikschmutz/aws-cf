@@ -4,7 +4,7 @@ from ..utils.context import Context
 import sys
 import re
 import json
-from ..utils.common import create_change_set, remove_change_set, format_diff, get_yes_or_no, deploy_stack, create_stack,package,format_diffs
+from ..utils.common import create_change_set, remove_change_set, format_diff, get_yes_or_no, deploy_stack, create_stack,package, format_diffs, select_role
 
 
 import boto3
@@ -67,6 +67,8 @@ def deploy(config_path, root_path, role_arn):
             if check_cache(service, config):
                 logger.info(f"No updates since last cache found for {service.name} hence skipping")
                 continue
+
+        role_arn = select_role(role_arn, service.role)
 
         change_set = create_change_set(service, config, role_arn)
         if change_set:
