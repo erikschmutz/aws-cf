@@ -13,7 +13,7 @@ import datetime
 def tab(index):
     return  index * "  "
 
-def create_change_set(stack: Stack, config: Config):
+def create_change_set(stack: Stack, config: Config, role_arn : str | None):
     PREFIX = Context.get_changeset_prefix()
 
     root_path = Context.get_root()
@@ -36,7 +36,7 @@ def create_change_set(stack: Stack, config: Config):
     if stack.parameters:
         parameters = [{"ParameterKey": key, "ParameterValue": stack.parameters[key]} for key in stack.parameters.keys()]
 
-    client.create_change_set(
+    args = dict(
         ChangeSetName=change_set_name,
         StackName=name,
         Capabilities=["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"],
@@ -44,6 +44,11 @@ def create_change_set(stack: Stack, config: Config):
         Parameters=parameters,
         IncludeNestedStacks=True
     )
+
+    if role_arn is not None:
+        args["RoleARN"] = role_arn
+
+    client.create_change_set(**args)
     wait_for_ready(name, change_set_name)
 
     return client.describe_change_set(
@@ -183,7 +188,7 @@ def deploy_stack(name: str, change_set):
     )
     wait_for_stack_deployed(name)
 
-def create_stack(stack: Stack, template):
+def create_stack(stack: Stack, template, role_arn : str | None):
     client = boto3.client("cloudformation")
     parameters  =[]
     

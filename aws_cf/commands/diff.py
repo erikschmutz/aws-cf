@@ -52,7 +52,7 @@ def update_cache(service, config: Config):
 
     print(hash)
 
-def diff(config_path, root_path):
+def diff(config_path, root_path, role_arn : str | None):
     config = Config.parse(config_path)
     config.setup_env(Context.get_args().env)
     services = config.stacks   
@@ -65,7 +65,7 @@ def diff(config_path, root_path):
             if check_cache(service, config):
                 continue
 
-        change_set = create_change_set(service, config)
+        change_set = create_change_set(service, config, role_arn)
         logger.info("Created change set...")
 
         if change_set:
