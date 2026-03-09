@@ -51,7 +51,7 @@ Stacks:
     role: `CloudFormationRole`
     name: `Network`
 ```
-Here's another example where the role parameter are specified in the stack configuration as an alternative to using the --role-arn argument. This will deploy the stack to Cloudformation with an IAM ARN role. The role parameter must be a valid ARN or a valid IAM role name.
+Here's another example where the role parameter are specified in the stack configuration as an alternative to using the --role-arn argument. This will deploy the stack to Cloudformation with an IAM role. The role parameter must be a valid ARN or a valid IAM role name.
 
 ## Why Use aws-cf Instead of More Opinionated Tools?
 aws-cf provides a simple wrapper around CloudFormation, serving as an alternative to more opinionated frameworks like Terraform or AWS CDK. Unlike these tools, aws-cf does not alter the underlying CloudFormation, making it easy to stop using if needed without major changes to your infrastructure.
