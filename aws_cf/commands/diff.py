@@ -66,7 +66,6 @@ def diff(config_path, root_path, role_arn : str | None):
                 continue
 
         role_arn = select_role(role_arn, service.role)
-        print(role_arn)
 
         change_set = create_change_set(service, config, role_arn)
         logger.info("Created change set...")
