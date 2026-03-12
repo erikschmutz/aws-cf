@@ -68,9 +68,9 @@ def deploy(config_path, root_path, role_arn):
                 logger.info(f"No updates since last cache found for {service.name} hence skipping")
                 continue
 
-        role_arn = select_role(role_arn, service.role)
+        cf_role = select_role(role_arn, service.role)
 
-        change_set = create_change_set(service, config, role_arn)
+        change_set = create_change_set(service, config, cf_role)
         if change_set:
             diffs = [format_diff(change)for change in change_set["Changes"]]
 
@@ -103,7 +103,7 @@ def deploy(config_path, root_path, role_arn):
             should_continue = get_yes_or_no(f"Do you wish to continue to update service: {service.name}")
 
             if should_continue:
-                create_stack(service, yml, role_arn)
+                create_stack(service, yml, cf_role)
 
                 if config.enviroment.cache:
-                    update_cache(service, config, role_arn) 
+                    update_cache(service, config, cf_role) 

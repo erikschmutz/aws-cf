@@ -65,9 +65,9 @@ def diff(config_path, root_path, role_arn : str | None):
             if check_cache(service, config):
                 continue
 
-        role_arn = select_role(role_arn, service.role)
+        cf_role = select_role(role_arn, service.role)
 
-        change_set = create_change_set(service, config, role_arn)
+        change_set = create_change_set(service, config, cf_role)
         logger.info("Created change set...")
 
         if change_set:
