@@ -1,0 +1,2 @@
+[console_scripts]
+aws-cf = aws_cf.__main__:main

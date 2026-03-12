@@ -232,19 +232,25 @@ def deploy_stack(name: str, change_set):
     )
     wait_for_stack_deployed(name)
 
-def create_stack(stack: Stack, template, role_arn : str | None):
+def create_stack(stack: Stack, template, cf_role : str | None):
     client = boto3.client("cloudformation")
     parameters  =[]
     
     if stack.parameters:
         parameters = [{"ParameterKey": key, "ParameterValue": stack.parameters[key]} for key in stack.parameters.keys()]
 
-    response = client.create_stack(
+    args = dict(
         StackName=stack.name,
-        TemplateBody=template, 
+        TemplateBody=template,
         Capabilities=["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"],
-        Parameters=parameters
+        Parameters=parameters,
     )
+
+    if cf_role is not None:
+        args["RoleARN"] = cf_role
+        
+    response = client.create_stack(**args)
+
     wait_for_stack_deployed(stack.name)
 
 def delete_stack(name: str):
