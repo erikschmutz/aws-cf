@@ -1,4 +1,0 @@
-pydantic
-boto3
-pyaml
-requests
